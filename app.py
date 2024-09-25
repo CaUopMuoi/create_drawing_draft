@@ -139,15 +139,15 @@ def draw_rectangle(msp, DIM_DISTANCE, SOLID_DISTANCE, center_x, center_y, lower_
     )
     dim2.render()
 
-def draw_circle(msp, DIM_DISTANCE, SOLID_DISTANCE, center_x, center_y, lower_left, upper_right, is_draw_center):
-    global NET_THAY
-    global DUONG_TAM
-    global NET_DIM
+# def draw_circle(msp, DIM_DISTANCE, SOLID_DISTANCE, center_x, center_y, lower_left, upper_right, is_draw_center):
+#     global NET_THAY
+#     global DUONG_TAM
+#     global NET_DIM
 
-    # Vẽ hình tròn với tâm tại (0, 0) và bán kính 50
-    center = (0, 0)
-    radius = 50
-    modelspace.add_circle(center, radius)
+#     # Vẽ hình tròn với tâm tại (0, 0) và bán kính 50
+#     center = (0, 0)
+#     radius = 50
+#     modelspace.add_circle(center, radius)
 
 
 
@@ -174,18 +174,18 @@ def draw_plate(msp, scale, thickness, width, length):
     draw_rectangle(msp, DIM_DISTANCE, SOLID_DISTANCE, center_x_move, center_y_move, (0, 0), (thickness, width), is_draw_center=False)
 
 
-def draw_pipe(msp, scale, thickness, phi, length):
-    # khoảng cách của DIM với vật thể
-    DIM_DISTANCE = 10 * scale
-    # khoảng cách của các hình chiếu
-    SOLID_DISTANCE = 30 * scale
+# def draw_pipe(msp, scale, thickness, phi, length):
+#     # khoảng cách của DIM với vật thể
+#     DIM_DISTANCE = 10 * scale
+#     # khoảng cách của các hình chiếu
+#     SOLID_DISTANCE = 30 * scale
 
-    # tâm của 2 hình chiếu (khi chưa di chuyển ra tâm bản vẽ)
-    center_x = (phi + SOLID_DISTANCE + length)/2
-    center_y = phi/2
+#     # tâm của 2 hình chiếu (khi chưa di chuyển ra tâm bản vẽ)
+#     center_x = (phi + SOLID_DISTANCE + length)/2
+#     center_y = phi/2
 
-    center_x_move = scale*297/2 - center_x
-    center_y_move = scale*210/2 - center_y + 30*scale
+#     center_x_move = scale*297/2 - center_x
+#     center_y_move = scale*210/2 - center_y + 30*scale
 
 
     # vẽ hình chiếu đứng
@@ -274,9 +274,9 @@ for index, row in df.iterrows():
     # mở bản vẽ
     doc = ezdxf.readfile(path_template_drawing)
     msp = doc.modelspace()
-
-
-
+    
+    block_front = doc.blocks.new(name="block_front")
+    block_side = doc.blocks.new(name="block_side")
 
 
     # vẽ tấm vào bản vẽ mẫu

@@ -1,24 +1,38 @@
 import ezdxf
+from ezdxf import transform
 
 # Tạo file DXF mới
 doc = ezdxf.new(dxfversion='R2010')
-modelspace = doc.modelspace()
+msp = doc.modelspace()
+
+block1 = doc.blocks.new(name="1")
+
+
 
 # Vẽ hình tròn với tâm tại (0, 0) và bán kính 50
 center = (0, 0)
 radius = 50
-modelspace.add_circle(center, radius)
+circle = block1.add_circle(center, radius)
 
-# # Thêm dim đo kích thước cho hình tròn (Radius dim)
-# dim = modelspace.add_radial_dim(
-#     center=center,  # Tâm của hình tròn
-#     radius=radius,  # Bán kính của hình tròn
-#     angle=0,  # Góc của đường đo
-#     override={"dimtad": 1}  # Tùy chọn thiết lập hiển thị
-# )
+dim = block1.add_diameter_dim(
+    center=(0, 0),
+    radius=50,
+    angle=45,
+    dimstyle="EZ_RADIUS",
+    override={"dimtoh": 1}
+)
+dim.render()
 
-# # Định dạng dim style (nếu cần)
-# dim.render()
+dim1 = block1.add_aligned_dim(
+    p1=(0, 0),  # 1st measurement point
+    p2=(50, 0),  # 2nd measurement point
+    distance= 20,
+    dimstyle="LT",  # default dimension style
+    # dxfattribs= NET_DIM
+)
+dim1.render()
+
+msp.add_blockref("1", insert=(100,100))
 
 # Lưu file DXF
 doc.saveas("circle_with_dimension.dxf")
