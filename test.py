@@ -7,8 +7,6 @@ msp = doc.modelspace()
 
 block1 = doc.blocks.new(name="1")
 
-
-
 # Vẽ hình tròn với tâm tại (0, 0) và bán kính 50
 center = (0, 0)
 radius = 50
