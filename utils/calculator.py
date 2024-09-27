@@ -1,14 +1,20 @@
 # Hàm tính toán tỉ lệ bản vẽ cần chọn
-def calculator_scale_draw(value_width, value_length, size_profile):
+def calculator_scale_draw(value_thickness, value_width, value_length, size_profile):
     # Danh sách các tỉ lệ bản vẽ
     list_scale = [1, 2, 4, 8, 16, 32, 48]
     # giá trị lớn nhất và nhỏ nhất để xác định length, width
 
-    length = max(value_width, value_length)
-    width = min(value_width, value_length)
+    # length = max(value_width, value_length)
+    # width = min(value_width, value_length)
+    length = value_length
+    width = value_width
 
     if size_profile == "pipe" and value_width > value_length:
-        length = value_width + value_width
+        length = (value_width + value_width)*1.17
+    elif size_profile == "pipe" and value_width < value_length:
+        length = (value_width + value_length)*1.17
+    else:
+        length = (value_thickness + value_length)*1.17
 
 
     # tỉ lệ

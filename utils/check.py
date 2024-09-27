@@ -4,8 +4,8 @@ def check_size_profile(value_size):
 
     # nếu là ống
     if "pipe" in size or "tube" in size:
-        print("là ống")
+        # print("là ống")
         return "pipe"
     else:
-        print("là thép tấm")
+        # print("là thép tấm")
         return "plate"

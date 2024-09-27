@@ -4,6 +4,7 @@ import ezdxf
 
 from utils.check import check_size_profile
 from utils.calculator import calculator_scale_draw
+from utils.drawing import draw_plate, draw_pipe
 
 
 # Đường dẫn folder chứa file hoàn thành
@@ -25,13 +26,6 @@ LENGTH = "Length (mm)"
 QTY = "Qty"
 MATERIAL = "Material"
 
-# LAYER trong bản vẽ template
-NET_THAY = {"layer":"0", "linetype":"Continuous"}
-NET_DUT = {"layer":"2", "linetype":"HIDDEN"}
-DUONG_TAM = {"layer":"1", "linetype":"CENTER"}
-NET_AO_NET_SAN = {"layer":"6", "linetype":"PHANTOM"}
-NET_DIM = {"layer":"4", "linetype":"Continuous"}
-
 df = pd.read_excel(PATH_FILE_EXCEL, sheet_name=sheet_name)
 
 
@@ -52,7 +46,7 @@ for index, row in df.iterrows():
     size_profile = check_size_profile(value_size)
 
     # B2: tính toán để chọn file dxf mẫu phù hợp
-    scale = calculator_scale_draw(value_width, value_length, size_profile)
+    scale = calculator_scale_draw(value_thickness, value_width, value_length, size_profile)
 
     # đường dẫn đến bản vẽ mẫu
     path_template_drawing = f"file_mau_dxf/S{scale}.dxf"
@@ -64,8 +58,21 @@ for index, row in df.iterrows():
     block_front = doc.blocks.new(name="block_front")
     block_side = doc.blocks.new(name="block_side")
 
-    # vẽ tấm vào bản vẽ mẫu
-    # draw_plate(msp, scale, value_thickness, value_width, value_length)
+    if size_profile == "pipe":
+        # vẽ ống vào bản vẽ mẫu
+        draw_pipe(msp, block_front, block_side, scale, value_thickness, value_width, value_length)
 
+    else:
+        # vẽ tấm vào bản vẽ mẫu
+        draw_plate(msp, block_front, block_side, scale, value_thickness, value_width, value_length)
+
+
+
+    # lưu ra nơi mới
+    path_file_finish = PATH_FOLDER_FINISH + value_name + FILE_TAIL
+    doc.saveas(path_file_finish)
+    # odafc.export_dwg(doc, path_file_finish, version='R2010')
+    print(f"xong {value_name + FILE_TAIL}")
+    msp.purge() # giải phóng dữ liệu của msp
 
 
